@@ -27,5 +27,7 @@ class AppServiceProvider extends ServiceProvider
         // == https://laravel.com/docs/8.x/pagination#using-bootstrap
 
         Paginator::useBootstrap();
+
+        require_once base_path('helpers.php');
     }
 }

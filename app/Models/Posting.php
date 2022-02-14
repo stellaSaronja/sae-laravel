@@ -10,4 +10,6 @@ class Posting extends Model
     use HasFactory;
 
     // protected $table = 'postings';
+
+    protected $fillable = ['title','content'];
 }

@@ -31,9 +31,12 @@ class PostingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $posting = new Posting;
+        $posting->fill($request->old());
+
+        return view('postings.create', compact('posting'));
     }
 
     /**
@@ -44,7 +47,23 @@ class PostingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // == https://laravel.com/docs/8.x/validation#available-validation-rules
+
+        $this->validate($request, [
+
+            'title' => 'required|min:2,max:91',
+            'content' => 'nullable',
+        ]);
+
+        $posting = new Posting;
+        $posting->fill($request->all());
+        /*
+        $posting->title = $request->get('title');
+        $posting->content = $request->get('content');
+        */
+        $posting->save();
+
+        return redirect()->route('postings.show', $posting->id)->with('info', 'Posting created!');
     }
 
     /**
@@ -55,7 +74,18 @@ class PostingController extends Controller
      */
     public function show($id)
     {
-        //
+        /*
+        $posting = Posting::query()->where('id', '=', $id)->first();
+
+        if (!$posting) {
+
+            abort(404);
+        }
+        */
+
+        $posting = Posting::findOrFail($id);
+
+        return view('postings.show', compact('posting'));
     }
 
     /**

@@ -10,7 +10,11 @@
 
 		@foreach($postings as $posting)
 
-			<li>{{ $posting->title }}</li>
+			<li>
+				<a href="{{ route('postings.show', $posting->id) }}">
+					{{ $posting->title }}
+				</a>
+			</li>
 
 		@endforeach
 
