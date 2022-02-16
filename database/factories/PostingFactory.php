@@ -19,7 +19,7 @@ class PostingFactory extends Factory
 
         return [
 
-            'title' => $this->faker->catchPhrase,
+            'title' => $this->faker->unique()->catchPhrase,
             'content' => $this->faker->text,
             'is_published' => $this->faker->boolean(80),
             'like_count' => $this->faker->numberBetween(0, 10000),

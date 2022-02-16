@@ -18,10 +18,7 @@ class PostingController extends Controller
     {
         // == https://laravel.com/docs/8.x/queries
 
-        $postings = Posting::query()
-            ->where('is_published', '=', true)
-            ->orderBy('created_at', 'desc')
-            ->paginate(12);
+        $postings = Posting::query()->published()->relevant()->latest()->paginate(12);
 
         return view('postings.index', compact('postings')); // ['postings' => $postings]
     }
@@ -57,13 +54,14 @@ class PostingController extends Controller
 
         $posting = new Posting;
         $posting->fill($request->all());
+        $posting->is_published = $request->has('is_published');
         /*
         $posting->title = $request->get('title');
         $posting->content = $request->get('content');
         */
         $posting->save();
 
-        return redirect()->route('postings.show', $posting->id)->with('info', 'Posting created!');
+        return redirect()->route('postings.show', $posting->slug)->with('info', 'Posting created!');
     }
 
     /**
@@ -72,7 +70,7 @@ class PostingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
         /*
         $posting = Posting::query()->where('id', '=', $id)->first();
@@ -83,7 +81,7 @@ class PostingController extends Controller
         }
         */
 
-        $posting = Posting::findOrFail($id);
+        $posting = Posting::where('slug', $slug)->firstOrFail();
 
         return view('postings.show', compact('posting'));
     }
@@ -94,9 +92,12 @@ class PostingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+        $posting = Posting::findOrFail($id);
+        $posting->fill($request->old());
+
+        return view('postings.edit', compact('posting'));
     }
 
     /**
@@ -108,7 +109,18 @@ class PostingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+
+            'title' => 'required|min:2,max:91',
+            'content' => 'required',
+        ]);
+
+        $posting = Posting::findOrFail($id);
+        $posting->fill($request->all());
+        $posting->is_published = $request->has('is_published');
+        $posting->save();
+
+        return redirect()->route('postings.show', $posting->slug)->with('info', 'Posting updated!');
     }
 
     /**
@@ -119,6 +131,25 @@ class PostingController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $posting = Posting::findOrFail($id);
+        $posting->delete();
+
+        return redirect()->route('postings.index')->with('info', 'Posting deleted!');
+    }
+
+    public function like($id)
+    {
+        $posting = Posting::findOrFail($id);
+        $posting->increment('like_count');
+
+        return redirect()->route('postings.show', $posting->slug)->with('info', 'Posting liked! :)');
+    }
+
+    public function dislike($id)
+    {
+        $posting = Posting::findOrFail($id);
+        $posting->increment('dislike_count');
+
+        return redirect()->route('postings.show', $posting->slug)->with('info', 'Posting disliked! :(');
     }
 }

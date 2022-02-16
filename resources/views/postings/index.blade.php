@@ -11,7 +11,7 @@
 		@foreach($postings as $posting)
 
 			<li>
-				<a href="{{ route('postings.show', $posting->id) }}">
+				<a href="{{ route('postings.show', $posting->slug) }}">
 					{{ $posting->title }}
 				</a>
 			</li>
@@ -23,5 +23,9 @@
 	<hr>
 
 	{{ $postings->links() }}
+
+	<hr>
+
+	<a href="{{ route('postings.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Create posting</a>
 
 @endsection

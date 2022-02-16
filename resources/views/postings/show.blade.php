@@ -17,22 +17,61 @@
 	<p>{{ $posting->content }}</p>
 
 	<p>Created {{ nice_date($posting->created_at) }}</p>
+	<p>Updated {{ nice_date($posting->updated_at) }}</p>
 
 	<hr>
 
 	<div class="d-flex flex-row">
-		<div class="btn btn-outline-primary me-2">
-			<i class="fa fa-thumbs-up"></i> {{ nice_number($posting->like_count) }}
+
+		<form method="post" action="{{ route('postings.like', $posting->id) }}" autocomplete="off">
+			@csrf
+			<button type="submit" class="btn btn-outline-primary me-2">
+				<i class="fa fa-thumbs-up"></i> {{ nice_number($posting->like_count) }}
+			</button>
+		</form>
+
+		<form method="post" action="{{ route('postings.dislike', $posting->id) }}" autocomplete="off">
+			@csrf
+			<button type="submit" class="btn btn-outline-primary me-2">
+				<i class="fa fa-thumbs-down"></i> {{ nice_number($posting->dislike_count) }}
+			</button>
+		</form>
+
+		<div>
+
+			Ratio: {{ $posting->like_ratio }}
+
+			@if($posting->is_positive)
+				:)
+			@elseif($posting->is_negative)
+				:(
+			@endif
+
 		</div>
-		<div class="btn btn-outline-primary">
-			<i class="fa fa-thumbs-down"></i> {{ nice_number($posting->dislike_count) }}
-		</div>
+
 	</div>
 
 	<hr>
 
-	<a class="btn btn-primary" href="{{ route('postings.index') }}">
+	<a class="btn btn-outline-primary" href="{{ route('postings.index') }}">
 		<i class="fa fa-arrow-left"></i> Back
 	</a>
+
+	<a class="btn btn-primary" href="{{ route('postings.edit', $posting->id) }}">
+		<i class="fa fa-pencil"></i> Edit
+	</a>
+
+	<hr>
+
+	<form method="post" action="{{ route('postings.destroy', $posting->id) }}" autocomplete="off" onsubmit="return confirm('We are going to delete {{ $posting->title }}. Are you sure?')">
+
+		@csrf
+		@method('delete')
+
+		<button type="submit" class="btn btn-danger me-2">
+			<i class="fa fa-trash"></i> Delete
+		</button>
+
+	</form>
 
 @endsection
