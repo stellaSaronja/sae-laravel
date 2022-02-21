@@ -13,6 +13,9 @@
 			<li>
 				<a href="{{ route('postings.show', $posting->slug) }}">
 					{{ $posting->title }}
+					@if($posting->user_id)
+						({{ $posting->user->name }})
+					@endif
 				</a>
 			</li>
 
@@ -26,6 +29,10 @@
 
 	<hr>
 
-	<a href="{{ route('postings.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Create posting</a>
+	@if(auth()->check())
+		<a href="{{ route('postings.create') }}" class="btn btn-primary">
+			<i class="fa fa-plus"></i> Create posting
+		</a>
+	@endif
 
 @endsection

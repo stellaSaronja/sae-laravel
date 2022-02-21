@@ -31,6 +31,24 @@
 				</li>
 
 			</ul>
+
+			<ul class="navbar-nav ms-auto">
+
+				@if(auth()->guest())
+					<li class="nav-item">
+						<a class="nav-link" href="{{ route('login') }}"><i class="fa fa-sign-in"></i> Login</a>
+					</li>
+				@else
+					<li class="nav-item">
+						<a class="nav-link" href="#"><i class="fa fa-user"></i> {{ auth()->user()->name }}</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ route('logout') }}"><i class="fa fa-sign-out"></i> Logout</a>
+					</li>
+				@endif
+
+			</ul>
+
 		</div>
 
 	</div>

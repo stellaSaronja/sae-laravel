@@ -18,7 +18,7 @@ class PostingController extends Controller
     {
         // == https://laravel.com/docs/8.x/queries
 
-        $postings = Posting::query()->published()->relevant()->latest()->paginate(12);
+        $postings = Posting::query()->published()->relevant()->latest()->with('user')->paginate(12);
 
         return view('postings.index', compact('postings')); // ['postings' => $postings]
     }
@@ -55,6 +55,7 @@ class PostingController extends Controller
         $posting = new Posting;
         $posting->fill($request->all());
         $posting->is_published = $request->has('is_published');
+        $posting->user_id = auth()->id();
         /*
         $posting->title = $request->get('title');
         $posting->content = $request->get('content');

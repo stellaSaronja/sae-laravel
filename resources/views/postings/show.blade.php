@@ -4,6 +4,10 @@
 
 	<h1>{{ $posting->title }}</h1>
 
+	@if($posting->user_id)
+		<p>Author: {{ $posting->user->name }}</p>
+	@endif
+
 	@if($posting->is_published)
 		<p class="text-success">
 			<i class="fa fa-check"></i> Published

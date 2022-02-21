@@ -23,6 +23,16 @@ class Posting extends Model
     ];
 
 
+    // == Relations
+
+    // == https://laravel.com/docs/8.x/eloquent-relationships
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+
     // == Scopes
 
     public function scopePublished($query)
