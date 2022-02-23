@@ -20,12 +20,10 @@
 			<input id="input_password" type="password" class="form-control" name="password">
 		</div>
 
-		{{--
 		<div class="form-check mb-3">
 			<input class="form-check-input" type="checkbox" id="check_remember_me" name="remember_me">
 			<label class="form-check-label" for="check_remember_me">Remember me</label>
 		</div>
-		--}}
 
 		<button type="submit" class="btn btn-primary">
 			<i class="fa fa-check"></i> Login

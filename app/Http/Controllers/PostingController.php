@@ -14,11 +14,16 @@ class PostingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         // == https://laravel.com/docs/8.x/queries
 
         $postings = Posting::query()->published()->relevant()->latest()->with('user')->paginate(12);
+
+        if ($request->wantsJson()) {
+
+            return response()->json($postings);
+        }
 
         return view('postings.index', compact('postings')); // ['postings' => $postings]
     }

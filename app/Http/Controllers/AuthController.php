@@ -20,8 +20,9 @@ class AuthController extends Controller
         ]);
 
         $credentials = $request->only(['email','password']);
+        $remember_me = $request->has('remember_me');
 
-        if (auth()->attempt($credentials)) {
+        if (auth()->attempt($credentials, $remember_me)) {
 
             return redirect()->route('postings.index')->with('info', 'Welcome dude!');
 

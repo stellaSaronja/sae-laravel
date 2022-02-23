@@ -11,7 +11,14 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .postCss('resources/css/app.css', 'public/css', [
-        //
-    ]);
+mix.sass('resources/sass/app.scss', 'public/css').version()
+
+mix.js('resources/vue/HelloWorld', 'public/js/vue-app.js').vue().version()
+
+mix.scripts([
+  
+  'node_modules/bootstrap/dist/js/bootstrap.bundle.js',
+
+], 'public/js/app.js').version()
+
+mix.copy('node_modules/font-awesome/fonts', 'public/fonts')
