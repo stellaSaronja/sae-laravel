@@ -19289,7 +19289,7 @@ __webpack_require__.r(__webpack_exports__);
     loadPostings: function loadPostings() {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/postings').then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/postings').then(function (response) {
         _this.postings = response.data.data;
       });
     }

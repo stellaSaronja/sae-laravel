@@ -20,10 +20,12 @@ class PostingController extends Controller
 
         $postings = Posting::query()->published()->relevant()->latest()->with('user')->paginate(12);
 
+        /*
         if ($request->wantsJson()) {
 
             return response()->json($postings);
         }
+        */
 
         return view('postings.index', compact('postings')); // ['postings' => $postings]
     }

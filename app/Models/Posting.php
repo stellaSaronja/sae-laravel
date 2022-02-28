@@ -15,6 +15,9 @@ class Posting extends Model
 
     protected $fillable = ['title','content'];
 
+    // protected $visible = [];
+    // protected $hidden = ['created_at','updated_at'];
+
     protected $casts = [
 
         'is_published' => 'boolean',

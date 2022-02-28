@@ -25,10 +25,13 @@ Route::get('/vue', function () {
 
 // Route::get('/login', [AuthController::class, 'login'])->name('login');
 
+Route::get('/signup', 'AuthController@signup')->name('signup');
+Route::post('/signup', 'AuthController@postSignup')->name('postSignup');
+Route::get('/activate/{token}', 'AuthController@activate')->name('activate');
+
 Route::get('/login', 'AuthController@login')->name('login');
 Route::post('/login', 'AuthController@postLogin')->name('postLogin');
 Route::get('/logout', 'AuthController@logout')->name('logout');
-
 
 
 // == https://laravel.com/docs/8.x/controllers#restful-partial-resource-routes

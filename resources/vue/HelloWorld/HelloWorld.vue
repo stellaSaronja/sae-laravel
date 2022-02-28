@@ -29,7 +29,7 @@ export default {
 
     loadPostings() {
 
-      axios.get('/postings').then(response => {
+      axios.get('/api/postings').then(response => {
 
         this.postings = response.data.data
       })
